@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FlatList } from 'react-native';
-import { Layout, Pokemon } from '../../App';
+import { Layout, Pokemon } from '../types';
 import PokeCard from './PokeCard';
 
 interface Props {
@@ -15,12 +15,7 @@ const PokeList: React.FC<Props> = ({ pokemon, getNextPokemon, layout }) => {
 			data={pokemon}
 			keyExtractor={(item: Pokemon) => item.name}
 			renderItem={({ item }: { item: Pokemon }) => (
-				<PokeCard
-					name={item.name}
-					id={item.id}
-					imgUrl={item.imgUrl}
-					width={layout.width}
-				/>
+				<PokeCard pokemon={item} width={layout.width} height={310} />
 			)}
 			onEndReached={getNextPokemon}
 		/>

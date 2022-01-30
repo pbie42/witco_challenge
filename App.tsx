@@ -9,6 +9,7 @@ import {
 import { Pokedex } from './src/classes/Generation';
 import Header from './src/components/Header';
 import PokeList from './src/components/PokeList';
+import { Pokemon, PokeRes, StatRes, TypeRes } from './src/types';
 
 const theme = {
 	...DefaultTheme,
@@ -18,35 +19,11 @@ const theme = {
 	},
 };
 
-export interface PokeRes {
-	name: string;
-	url: string;
-}
-
-export interface Pokemon {
-	id: number;
-	name: string;
-	url: string;
-	imgUrl: string;
-	indices: Array<string>;
-}
-
-export interface Layout {
-	height: number;
-	width: number;
-}
-
-export interface GameIndex {
-	version: {
-		name: string;
-		url: string;
-	};
-}
-
 const App = () => {
 	const [next, setNext] = useState('https://pokeapi.co/api/v2/pokemon');
 	const [pokemon, setPokemon] = useState<Array<Pokemon>>([]);
 	const [loading, setLoading] = useState(false);
+
 	const [layout, setLayout] = useState({
 		width: 0,
 		height: 0,
@@ -64,9 +41,14 @@ const App = () => {
 				...element,
 				imgUrl: pokeData.sprites.front_default,
 				id: pokeData.id,
-				indices: pokeData.game_indices.map(
-					(g: GameIndex) => g.version.name
-				),
+				types: pokeData.types.map((t: TypeRes) => ({
+					slot: t.slot,
+					name: t.type.name,
+				})),
+				stats: pokeData.stats.map((s: StatRes) => ({
+					stat: s.base_stat,
+					name: s.stat.name,
+				})),
 			};
 			pokeBatch.push(newPokemon);
 		}
@@ -128,6 +110,7 @@ const App = () => {
 						)}
 					</>
 				)}
+
 				<View style={styles.bottom} />
 			</View>
 		</PaperProvider>
@@ -140,7 +123,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
-		paddingBottom: '22%',
+		paddingBottom: '18%',
 	},
 	bottom: {
 		height: '13%',
