@@ -1,3 +1,3 @@
-yarn install to add packages
-yarn start to launch expo
-yarn test to run tests
+1. `yarn install` to add packages
+2. `yarn start `to launch expo
+3. `yarn test` to run tests
